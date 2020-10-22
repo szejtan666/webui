@@ -185,7 +185,6 @@ export class ServiceNFSComponent {
   }
 
   isCustActionVisible(actionname: string) {
-    console.log(actionname, this.hasNfsStatus, this.v4krbValue, this.adHealth)
     if (actionname === 'has_nfs_status' && (!this.hasNfsStatus && this.v4krbValue &&
       this.adHealth === 'HEALTHY')) {
         return true;
