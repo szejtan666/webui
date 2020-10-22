@@ -185,6 +185,7 @@ export class ServiceNFSComponent {
   }
 
   isCustActionVisible(actionname: string) {
+    console.log(actionname, this.hasNfsStatus, this.v4krbValue, this.adHealth)
     if (actionname === 'has_nfs_status' && (!this.hasNfsStatus && this.v4krbValue &&
       this.adHealth === 'HEALTHY')) {
         return true;
@@ -227,6 +228,14 @@ export class ServiceNFSComponent {
     entityForm.formGroup.controls['v4_v3owner'].valueChanges.subscribe((value) => {
       if (value) {
         entityForm.formGroup.controls['userd_manage_gids'].setValue(false);
+      }
+    })
+
+    entityForm.formGroup.controls['v4_krb'].valueChanges.subscribe((value) => {
+      if (value) {
+        this.v4krbValue = true;
+      } else {
+        this.v4krbValue = false;
       }
     })
 
