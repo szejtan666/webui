@@ -23,8 +23,13 @@ export class EntityTableAddActionsComponent implements OnInit, AfterViewInit, On
   public direction: string = 'left';
   public animationMode: string = 'fling';
   get totalActions(){
-    let addAction = this.entity.conf.route_add ? 1 : 0;
-    return this.actions.length + addAction;
+    if (this.entity && this.entity.conf) {
+      let addAction = this.entity.conf.route_add ? 1 : 0;
+        return this.actions.length + addAction;
+    }
+    else {
+      return this.actions.length;
+    }
   }
 
   constructor(protected translate: TranslateService) { }

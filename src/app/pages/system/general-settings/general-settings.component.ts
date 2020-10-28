@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { WebSocketService, SystemGeneralService, DialogService, LanguageService, StorageService } 
   from '../../../services/';
 import { LocaleService } from '../../../services/locale.service';
@@ -16,12 +16,14 @@ import { EntityUtils } from '../../common/entity/utils';
 import { DialogFormConfiguration } from '../../common/entity/entity-dialog/dialog-form-configuration.interface';
 import { FieldConfig } from '../../common/entity/entity-form/models/field-config.interface';
 import { EntityJobComponent } from 'app/pages//common/entity/entity-job/entity-job.component';
+import { EntityTableAddActionsComponent } from '../../common/entity/entity-table/entity-table-add-actions.component';
+import { CoreService } from 'app/core/services/core.service';
 
 @Component({
   selector: 'app-general-settings',
   templateUrl: './general-settings.component.html',
 })
-export class GeneralSettingsComponent implements OnInit, OnDestroy {
+export class GeneralSettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   dataCards = [];
   supportTitle = helptext.supportTitle;
   ntpTitle = helptext.ntpTitle;
@@ -32,6 +34,9 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
   dataSource: any;
   refreshTable: Subscription;
   getGenConfig: Subscription;
+
+  // Global Actions in Page Title 
+  protected actionsConfig: any;
 
   // Components included in this dashboard
   protected localizationComponent = new LocalizationFormComponent(this.language,this.ws,this.dialog,this.loader,
@@ -113,9 +118,11 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
     private sysGeneralService: SystemGeneralService, private modalService: ModalService,
     private language: LanguageService, private dialog: DialogService, private loader: AppLoaderService,
     private router: Router, private http: HttpClient, private storage: StorageService,
-    public mdDialog: MatDialog) { }
+    public mdDialog: MatDialog, private core: CoreService) { }
 
   ngOnInit(): void {
+    this.actionsConfig = { actionType: EntityTableAddActionsComponent, actionConfig: this };
+
     this.getDataCardData();
     this.refreshCardData = this.sysGeneralService.refreshSysGeneral$.subscribe(() => {
       this.getDataCardData();
@@ -124,6 +131,35 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
     this.refreshTable = this.modalService.refreshTable$.subscribe(() => {
       this.getNTPData();
     })
+  }
+
+  ngAfterViewInit() {
+
+    // Setup Actions in Page Title Component
+    this.core.emit({ name:"GlobalActions", data: this.actionsConfig, sender: this});
+  }
+
+  getAddActions() {
+    return [
+      {
+        label: ("Scrub Boot Pool"),
+        onClick: () => {
+          console.log('yo');
+        }
+      },
+      {
+        label: ("Scrub Boot Yo"),
+        onClick: () => {
+          console.log('yo');
+        }
+      },
+      {
+        label: ("Scrub Boot Pool"),
+        onClick: () => {
+          console.log('yo');
+        }
+      }
+    ]
   }
 
   getDataCardData() {
