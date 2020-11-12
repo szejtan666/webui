@@ -31,7 +31,7 @@
       			[ngModelOptions]="{standalone: true}"
       			[readonly]="config.readonly"
       			[required]="config.required"
-      			(blur)="setAddress($event)"
+      			(input)="setAddress($event)"
       			[pattern]="network.ipv4_or_ipv6_cidr_optional"
       			ix-auto ix-auto-type="input" ix-auto-identifier="{{config.placeholder}}"
       			>
@@ -70,6 +70,7 @@
       </div>
 
 	<div class="margin-for-error">
+		<form-errors [control]="group.controls[config.name]" [config]="config"></form-errors>
 		<mat-error *ngIf="config['hasErrors']">{{config['errors']}}</mat-error>
 		<mat-error *ngIf="config.warnings">{{config.warnings | translate}}</mat-error>
 	</div>
