@@ -574,6 +574,16 @@ export class InterfacesFormComponent extends ViewControllerComponent implements 
     return data;
   }
 
+  beforeSubmit(data) {
+    if (data.failover_aliases) {
+      for (let i = 0; i < data.aliases.length; i++ ) {
+        if (data.failover_aliases[i]) {
+          data.failover_aliases[i].netmask = data.aliases[i].netmask;
+        }
+      }
+    }
+  }
+
   afterSave() {
     this.core.emit({ name: "NetworkInterfacesChanged", data: { commit: false, checkin: false }, sender: this });
   }
