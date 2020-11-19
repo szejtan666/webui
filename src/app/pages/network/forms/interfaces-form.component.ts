@@ -581,6 +581,9 @@ export class InterfacesFormComponent extends ViewControllerComponent implements 
           data.failover_aliases[i].netmask = data.aliases[i].netmask;
         }
       }
+      data.failover_virtual_aliases.forEach(alias => {
+        alias.netmask = 32;
+      })
     }
   }
 
