@@ -13,6 +13,8 @@ import { ProactiveComponent } from './proactive/proactive.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogFormConfiguration } from '../../../common/entity/entity-dialog/dialog-form-configuration.interface';
 import { FieldConfig } from '../../../common/entity/entity-form/models/field-config.interface';
+import { EntityJobComponent } from 'app/pages/common/entity/entity-job/entity-job.component';
+import {EntityUtils} from 'app/pages/common/entity/utils';
 
 @Component({
   selector : 'app-support',
@@ -36,6 +38,7 @@ export class SupportComponent implements OnInit {
   public licenseButtonText: string;
   public ticketText = helptext.ticket;
   public proactiveText = helptext.proactive.title;
+  public dialogRef: any;
 
   protected licenseComponent = new LicenseComponent(this.ws,this.modalService,this.loader,this.dialog);
   protected supportFormLicensed = new SupportFormLicensedComponent(this.mdDialog,this.loader,
@@ -165,13 +168,18 @@ export class SupportComponent implements OnInit {
     if (e.checked) {
       this.dialog.dialogForm(this.updateProdStatusConf);
     } else {
-      this.ws.call('truenas.set_production', [false, false]).subscribe(() => {
+      this.dialogRef = this.mdDialog.open(EntityJobComponent, { data: { "title": helptext.is_production_job.title }});
+      this.dialogRef.componentInstance.setDescription(helptext.is_production_job.message);
+      this.dialogRef.componentInstance.setCall('truenas.set_production', [false, false]);
+      this.dialogRef.componentInstance.submit();
+      this.dialogRef.componentInstance.success.subscribe((res) => {
+        this.dialogRef.close();
         this.dialog.Info(helptext.is_production_dialog.title, 
           helptext.is_production_dialog.message, '300px', 'info', true);
-      },     (err) => {
-        this.loader.close();
-        this.dialog.errorReport(helptext.is_production_error_dialog.title,
-          err.error.message, err.error.traceback);
+      });
+      this.dialogRef.componentInstance.failure.subscribe((err) => {
+        this.dialogRef.close();
+        new EntityUtils().handleWSError(this, err, this.dialog);
       });
     }
   }
@@ -196,8 +204,21 @@ export class SupportComponent implements OnInit {
 
   doProdUpdate(entityDialog: any) {
     const self = entityDialog;
-    self.loader.open();
-    self.ws.call(self.conf.method_ws, [true, self.formValue.send_debug]).subscribe(() => {
+    self.dialogRef = self.mdDialog.open(EntityJobComponent, { data: { "title": helptext.is_production_job.title }});
+    self.dialogRef.componentInstance.setDescription(helptext.is_production_job.message);
+
+    self.dialogRef.componentInstance.setCall(self.conf.method_ws, [true, self.formValue.send_debug]);
+    self.dialogRef.componentInstance.submit();
+    self.dialogRef.componentInstance.success.subscribe((res) => {
+      self.dialogRef.close();
+      self.dialog.Info(helptext.is_production_dialog.title, 
+        helptext.is_production_dialog.message, '300px', 'info', true);
+    });
+    self.dialogRef.componentInstance.failure.subscribe((err) => {
+      self.dialogRef.close();
+      new EntityUtils().handleWSError(self, err, self.dialog);
+    });
+    /*self.ws.call(self.conf.method_ws, [true, self.formValue.send_debug]).subscribe(() => {
       self.loader.close();
       self.dialogRef.close();
       self.dialog.Info(helptext.is_production_dialog.title, 
@@ -208,6 +229,6 @@ export class SupportComponent implements OnInit {
       self.dialogRef.close();
       self.dialog.errorReport(helptext.is_production_error_dialog.title,
         err.error.message, err.error.traceback);
-    });
+    });*/
   }
 }
