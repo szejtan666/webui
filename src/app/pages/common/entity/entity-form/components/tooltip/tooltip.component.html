@@ -1,33 +1,37 @@
 <div #tooltip class="tooltip" > 
-  <i class="material-icons tooltip-icon" (click)="toggleVis()" 
+  <i class="material-icons tooltip-icon" (click)="isOpen = !isOpen"  cdkOverlayOrigin #trigger="cdkOverlayOrigin" 
     ix-auto
     ix-auto-type="tooltip-icon"
     ix-auto-identifier="{{header}}">help_outline</i>
 
-  <div class="tooltip-container fn-theme-primary" [ngClass]="{'wizard': isWizard, 'moved': isMoved}">
-    <div cdkDrag 
-      (cdkDragStarted)="hideTail($event)" #tooltiptext
-      class ="tooltiptext {{positionString}}" [class.show]="isShowTooltip">
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen">
+    <div class="tooltip-container fn-theme-primary" [ngClass]="{'wizard': isWizard, 'moved': isMoved}">
+      <div cdkDrag 
+        (cdkDragStarted)="hideTail($event)" #tooltiptext
+        class ="tooltiptext {{positionString}}" [class.show]="isShowTooltip">
 
-      <div id="tooltip-header" cdkDragHandle>
-        <div class="tooltip-header-text">{{"Help" | translate}}{{ header ? ': ' + (header | translate) : ''}}</div>
-      </div>
+        <div id="tooltip-header" cdkDragHandle>
+          <div class="tooltip-header-text">{{"Help" | translate}}{{ header ? ': ' + (header | translate) : ''}}</div>
+        </div>
 
-        <div class="pin" (click)="toggleVis()">
-          <mat-icon role="img" fontSet="mdi-set" fontIcon="mdi-close"
+          <div class="pin" (click)="isOpen = false">
+            <mat-icon role="img" fontSet="mdi-set" fontIcon="mdi-close"
+            ix-auto
+            ix-auto-type="tooltip-close"
+            ix-auto-identifier="{{header}}"></mat-icon>
+            </div>
+
+        <div class="tooltip-message" [innerHTML]="message | translate | docreplace"
           ix-auto
-          ix-auto-type="tooltip-close"
-          ix-auto-identifier="{{header}}"></mat-icon>
-          </div>
+          ix-auto-type="tooltip-message"
+          ix-auto-identifier="{{header}}"></div>
 
-      <div class="tooltip-message" [innerHTML]="message | translate | docreplace"
-        ix-auto
-        ix-auto-type="tooltip-message"
-        ix-auto-identifier="{{header}}"></div>
-
+      </div>
     </div>
-  </div>
-
+  </ng-template>
 </div>
 
 

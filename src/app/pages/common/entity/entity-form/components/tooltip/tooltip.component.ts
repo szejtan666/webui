@@ -15,6 +15,7 @@ export class TooltipComponent {
   @ViewChild(CdkDrag, {static: true}) dragTarget: CdkDrag;
   @ViewChild('tooltiptext', {static: true}) private tooltiptext: ElementRef;
 
+  public isOpen: boolean = false;
   public isShowTooltip: boolean;
   public tooltipMsgStyle: any;
   public isWizard: boolean = false;
@@ -23,6 +24,10 @@ export class TooltipComponent {
   public isMoved: boolean = false;
 
   constructor(public translate: TranslateService) {}
+
+  ngOnInit() {
+    this.toggleVis();
+  }
 
   showTooltip($event) {
     this.isShowTooltip = $event;
@@ -33,7 +38,6 @@ export class TooltipComponent {
       'top':'-32px',
       'min-height':'64px'
     };
-
     let insideJob = formParent ? (formParent.clientWidth - posRight > 300 ? true : false) : null;
 
     if(this.positionOverride){
