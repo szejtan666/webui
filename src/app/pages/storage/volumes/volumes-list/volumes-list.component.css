@@ -97,3 +97,7 @@ app-entity-table-actions.offline-actions {
   min-height: 150px;
   padding: 16px 16px 32px 16px;
 }
+
+.empty-state-message{
+  margin: 8px 0 16px;
+}

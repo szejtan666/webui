@@ -565,7 +565,11 @@ export class VolumesListTableConfig implements InputTableConf {
           let encryptedStatus = row1.encrypt,
           self = this;
 
-          if (rowData.is_decrypted && rowData.status !== 'UNKNOWN') {
+          if(rowData.status == 'OFFLINE'){
+            console.log(rowData);
+            console.log(row1);
+            doDetach();
+          } else if (rowData.is_decrypted && rowData.status !== 'UNKNOWN' ) {
             this.loader.open();
             this.ws.call('pool.attachments', [row1.id]).subscribe((res) => {
               if (res.length > 0) {
@@ -748,6 +752,7 @@ export class VolumesListTableConfig implements InputTableConf {
                   }],
                 customSubmit: function (entityDialog) {
                   const value = entityDialog.formValue;
+                  console.log(value);
                   let dialogRef = self.mdDialog.open(EntityJobComponent, {data: {"title":helptext.exporting}, disableClose: true});
                   dialogRef.updateSize('300px');
                   dialogRef.componentInstance.setDescription(helptext.exporting);
@@ -1802,6 +1807,11 @@ export class VolumesListComponent extends EntityTableComponent implements OnInit
     },
     conf: new VolumesListTableConfig(this, this.router, "", [], this.mdDialog, this.ws, this.dialogService, this.loader, this.translate, this.storage, {}, this.messageService, this.http)
   };
+
+  exportPool(row){
+    const action = this.conf.getActions(row).filter(v => v.label == 'Export/Disconnect')[0];
+    action.onClick(row);
+  }
 
   expanded = false;
   public paintMe = true;
