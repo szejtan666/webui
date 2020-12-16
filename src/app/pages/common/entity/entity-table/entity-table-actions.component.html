@@ -1,14 +1,28 @@
 <div class="panel_container">
-  <mat-icon
-    [ix-auto]=""
-    ix-auto-type="options"
-    ix-auto-identifier="{{row[key_prop]}}"
-    id="{{row[entity?.conf?.rowIdentifier || 'name']}}_{{action}}_button"
-    [matMenuTriggerFor]="appMenu"
-    [style.cursor]="'pointer'"
-  >
-    {{icon_name}}
-  </mat-icon>
+  <ng-container *ngIf="triggerType == 'button'">
+    <button mat-button
+      [ix-auto]
+      ix-auto-type="options"
+      ix-auto-identifier="{{row[key_prop]}}"
+      [matMenuTriggerFor]="appMenu"
+      class="button-trigger">
+      {{buttonLabel}} <mat-icon class="menu-caret">arrow_drop_down</mat-icon>
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="triggerType == 'icon'">
+    <mat-icon
+      [ix-auto]=""
+      ix-auto-type="options"
+      ix-auto-identifier="{{row[key_prop]}}"
+      id="{{row[entity?.conf?.rowIdentifier || 'name']}}_{{action}}_button"
+      [matMenuTriggerFor]="appMenu"
+      [style.cursor]="'pointer'"
+    >
+      {{icon_name}}
+    </mat-icon>
+  </ng-container>
+
   <mat-menu #appMenu="matMenu">
     <span *ngIf="!groups;else groupMenu">
       <span *ngFor="let action of actions"

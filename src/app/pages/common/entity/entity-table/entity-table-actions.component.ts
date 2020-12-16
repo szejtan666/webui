@@ -21,6 +21,9 @@ export class EntityTableActionsComponent implements OnInit, OnChanges {
   @Input('icon_name') icon_name = "more_vert";
   @Input('action') action: any;
   @Input('groups') groups = false;
+  @Input('triggerType') triggerType: string = "icon";
+  @Input('buttonLabel') buttonLabel: string = "Actions";
+
 
   public actions: any[];
   public showMenu = true;

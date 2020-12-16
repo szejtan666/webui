@@ -40,14 +40,37 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div fxLayoutAlign="end start" class="icon-row hidden">
-        <div class="global_volume_based_action_menu pool-icon" title="Pool Operations" >
-          <app-entity-table-actions [icon_name]="'settings'" [entity]="actionComponent" [row]="row" [action]="'settings'" [groups]="true"></app-entity-table-actions>
+      <!-- POOL DATA -->
+      <ng-container *ngIf="row.volumesListTableConfig.tableData?.length > 0">
+        <div fxLayoutAlign="end start" class="icon-row hidden">
+          <div class="global_volume_based_action_menu pool-icon" title="Pool Operations" >
+            <app-entity-table-actions [icon_name]="'settings'" [entity]="actionComponent" [row]="row" [action]="'settings'" [groups]="true"></app-entity-table-actions>
+          </div>
         </div>
-      </div>
-      <div>
-        <entity-tree-table *ngIf="row.volumesListTableConfig.tableData?.length > 0" [conf]="row.volumesListTableConfig" [expandRootNodes]="true"></entity-tree-table>
-      </div>
+        <div>
+          <entity-tree-table *ngIf="row.volumesListTableConfig.tableData?.length > 0" [conf]="row.volumesListTableConfig" [expandRootNodes]="true"></entity-tree-table>
+        </div>
+      </ng-container>
+
+      <!-- NO POOL DATA -->
+      <ng-container *ngIf="row.volumesListTableConfig.tableData?.length == 0">
+        <div class="empty-state" style="margin:0 auto; max-width:600px; min-height: 150px; padding:16px;">
+          <h2>
+            Pool "{{row.name}}" is Offline
+            <app-entity-table-actions class="offline-actions" [icon_name]="'settings'" 
+              triggerType="button" buttonLabel="Offline Actions"
+              [entity]="actionComponent" [row]="row" 
+              [action]="'settings'" [groups]="true">
+            </app-entity-table-actions>
+          </h2>
+
+          <div class="empty-state-message">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat dolor non elit pulvinar, et tempor augue finibus. Nunc lectus eros, venenatis vel placerat porta, dapibus in quam. 
+          </div>
+
+        </div>
+      </ng-container>
+
     </mat-expansion-panel>
   </mat-accordion>
 </div>
