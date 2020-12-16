@@ -1786,6 +1786,7 @@ export class VolumesListTableConfig implements InputTableConf {
 })
 export class VolumesListComponent extends EntityTableComponent implements OnInit, AfterViewChecked {
 
+  offline_message: string;
   title = T("Pools");
   zfsPoolRows: ZfsPoolData[] = [];
   conf: InputTableConf = new VolumesListTableConfig(this, this.router, "", [], this.mdDialog, this.ws, this.dialogService, this.loader, this.translate, this.storage, {}, this.messageService, this.http);
@@ -1834,6 +1835,7 @@ export class VolumesListComponent extends EntityTableComponent implements OnInit
 
     this.actionsConfig = { actionType: VolumesListControlsComponent, actionConfig: this};
     this.core.emit({name: "GlobalActions", data: this.actionsConfig, sender: this});
+    this.offline_message = helptext.pool_offline_message;
   }
 
   public repaintMe() {

@@ -57,7 +57,7 @@
         <div class="empty-state">
           <h3>Pool "{{row.name}}" is Offline</h3>
           <div class="empty-state-message">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat dolor non elit pulvinar, et tempor augue finibus. Nunc lectus eros, venenatis vel placerat porta, dapibus in quam. 
+            {{offline_message}}
           </div>
 
           <button mat-button class="offline-actions" (click)="exportPool(row)">Export/Disconnect</button>

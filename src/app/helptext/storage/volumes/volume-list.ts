@@ -152,5 +152,6 @@ encryptMsgB: T(' and will be disrupted if the pool is locked:'),
 runningMsg: T('These running services are using'),
 unknownMsg: T('These unknown processes are using this pool:'),
 terminatedMsg: T('WARNING: These unknown processes will be terminated while locking the pool.'),
-dataErrMsg: T('Error gathering data on pool.')
+dataErrMsg: T('Error gathering data on pool.'),
+pool_offline_message: T('Disks in this pool are offline and the pool is no longer available. Verify that disks allocated to this pool are properly connected to the system and in a functional state. If the disks and pool are being transferred to another system, the pool can be exported from this system.')
 }
