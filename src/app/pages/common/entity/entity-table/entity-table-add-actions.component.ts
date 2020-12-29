@@ -1,11 +1,5 @@
 import { Component, ElementRef, Input, ViewChild, OnInit, AfterViewInit, OnDestroy, OnChanges, SimpleChanges} from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-
-import {RestService} from '../../../../services/rest.service';
-
-import {EntityTableComponent} from './entity-table.component';
 
 @Component({
   selector : 'app-entity-table-add-actions',
@@ -52,5 +46,10 @@ export class EntityTableAddActionsComponent implements OnInit, AfterViewInit, On
     this.conf = entity.conf;
     this.entity.filterInit();
   }
-
+  
+  resetDatasetFilter(){
+    this.filter.nativeElement.value = '';
+    this.entity.filter = this.filter;
+    this.entity.filterInit();
+  }
 }

@@ -35,6 +35,7 @@ export class TaskManagerComponent implements OnInit, OnDestroy{
   private subscrition: Subscription;
   public expandedElement: any | null;
   public timeZone: string;
+  public filterValue: string;
 
   constructor(
     public dialogRef: MatDialogRef<TaskManagerComponent>,
@@ -94,7 +95,17 @@ export class TaskManagerComponent implements OnInit, OnDestroy{
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = this.filterValue;
+  }
+  
+  hasFilter() {
+    return !!this.dataSource.filter;
+  }
+  
+  resetFilter() {
+    this.filterValue = '';
+    this.dataSource.filter = this.filterValue;
   }
 
   getReadableDate(data: any) {

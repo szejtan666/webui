@@ -4,15 +4,23 @@ mat-dialog-content.task-manager-dialog-content.mat-dialog-content {
     margin-top: -10px;
 }
 span.task-manager-search {
+    display: block;
     padding: 0 24px;
 }
-span.task-manager-search input{
-    width: 80%;
+span.task-manager-search .mat-form-field {
+    display: block;
 }
-span.task-manager-search mat-icon {
-    top: 10px;
+span.task-manager-search .mat-icon.search-icon {
+    display: inline-block;
+    width: 24px;
+    top: 6px;
     position: relative;
 }
+
+.clear_input.hidden {
+    opacity: 0;
+}
+
 button.task-manager-action-button {
     width: 100%;
 }

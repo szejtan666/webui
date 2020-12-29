@@ -62,6 +62,14 @@ export class FormInputComponent implements Field {
     this.config.inputType = this.config.inputType === 'password' ? '' : 'password';
     this.showPassword = !this.showPassword;
   }
+  
+  clearButtonHidden() {
+    return !this.group.controls[this.config.name].value || this.group.controls[this.config.name].value.length === 0;
+  }
+  
+  clearInput() {
+    this.group.controls[this.config.name].setValue('');
+  }
 
   valueChange() {
     if (this.config.inputUnit) {

@@ -7,6 +7,18 @@
         ix-auto
         ix-auto-type="input"
         ix-auto-identifier="Filter {{entity.conf.title}}">
+        
+      <button 
+        *ngIf="filter.value"
+        mat-icon-button 
+        class="clear_input"
+        matSuffix
+        (click)="resetDatasetFilter()"
+        ix-auto
+        ix-auto-type="button"
+        ix-auto-identifier="{{entity.conf.title}}_clear_input">
+        <mat-icon [matTooltip]="'Clear' | translate" role="img" fontSet="mdi-set" fontIcon="mdi-close-circle"></mat-icon>
+      </button>  
     </mat-form-field>
   </div>
 
